@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Curry Queen | Royal Indian Cuisine</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --brand-maroon: #4A0E0E;
+            --brand-gold: #E5B34C;
+            --brand-cream: #FFF9F0;
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--brand-cream); 
+            color: var(--brand-maroon); 
+        }
+
+        h1, h2, h3, nav { font-family: 'Cinzel', serif; }
+
+        section { scroll-margin-top: 80px; }
+
+        /* MENU LOGIC */
+        .menu-category { display: none; }
+        .active-category { display: block !important; animation: fadeIn 0.5s ease-in; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-royal:hover { background-color: var(--brand-gold); color: var(--brand-maroon); }
+
+        /* Mobile Menu Animation */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+        #mobile-menu.open { transform: translateX(0); }
+    </style>
+</head>
+<body class="text-stone-800">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-[#4A0E0E] z-50 py-4 shadow-xl border-b border-[#E5B34C]/30">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <!-- Brand -->
+            <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 bg-[#E5B34C] rounded-full flex items-center justify-center text-[#4A0E0E] font-bold text-xs">CQ</div>
+                <div class="text-xl font-bold tracking-widest text-[#E5B34C]">The Curry Queen</div>
+            </div>
+
+            <!-- Desktop Links (Hidden on Mobile) -->
+            <div class="hidden lg:flex space-x-8 text-xs uppercase tracking-[0.2em] text-[#E5B34C]" style="font-size: 1rem">
+                <a href="#home" class="hover:opacity-70 transition">Home</a>
+                <a href="#menu" class="hover:opacity-70 transition">Royal Menu</a>
+                <a href="#gallery" class="hover:opacity-70 transition">Gallery</a>
+                <a href="#feedback" class="hover:opacity-70 transition">Feedback</a>
+                <a href="#find-us" class="hover:opacity-70 transition">Find Us</a>
+            </div>
+
+            <!-- Mobile Hamburger Button (Visible only on Mobile) -->
+            <button onclick="toggleMobileMenu()" class="lg:hidden text-[#E5B34C] focus:outline-none">
+                <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m4 6h16" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-[#4A0E0E] z-[60] flex flex-col items-center justify-center space-y-8 text-[#E5B34C] text-2xl uppercase tracking-widest lg:hidden">
+        <button onclick="toggleMobileMenu()" class="absolute top-6 right-6 text-3xl">&times;</button>
+        <a href="#home" onclick="toggleMobileMenu()">Home</a>
+        <a href="#menu" onclick="toggleMobileMenu()">Royal Menu</a>
+        <a href="#gallery" onclick="toggleMobileMenu()">Gallery</a>
+        <a href="#feedback" onclick="toggleMobileMenu()">Feedback</a>
+        <a href="#find-us" onclick="toggleMobileMenu()">Find Us</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="h-screen flex items-center justify-center relative overflow-hidden bg-[#4A0E0E]">
+        <div class="absolute inset-0 opacity-40">
+            <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1600&q=80" class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-10 text-center px-4">
+            <img src="logo.png" alt="Logo" class="h-40 md:h-56 mx-auto mb-6 drop-shadow-2xl">
+            <h1 class="text-4xl md:text-7xl text-[#E5B34C] mb-4 tracking-wider uppercase">The Curry Queen</h1>
+            <p class="text-[#E5B34C]/80 text-sm md:text-xl max-w-2xl mx-auto font-light leading-relaxed tracking-widest">
+                SPICES WITH A SOUL • HANDCRAFTED ROYAL CUISINE
+            </p>
+        </div>
+    </section>
+
+    <!-- 1. ROYAL MENU SECTION (Supports N Items) -->
+    <section id="menu" class="py-24 container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl text-[#4A0E0E] mb-2 uppercase tracking-widest">The Royal Spread</h2>
+            <div class="w-24 h-1 bg-[#E5B34C] mx-auto"></div>
+        </div>
+        
+        <div class="flex flex-wrap justify-center gap-4 mb-16">
+            <button onclick="showMenu('daily')" class="btn-royal px-8 py-2 border border-[#4A0E0E] transition uppercase text-xs tracking-widest font-semibold">Daily</button>
+            <button onclick="showMenu('festival')" class="btn-royal px-8 py-2 border border-[#4A0E0E] transition uppercase text-xs tracking-widest font-semibold">Festivals</button>
+            <button onclick="showMenu('weekend')" class="btn-royal px-8 py-2 border border-[#4A0E0E] transition uppercase text-xs tracking-widest font-semibold">Weekends</button>
+        </div>
+
+        <!-- Menu Container: Automatically creates columns based on N items -->
+        <div id="daily" class="menu-category active-category max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+                <!-- Item Start -->
+                <div class="flex justify-between border-b border-[#4A0E0E]/20 pb-4">
+                    <div class="pr-4">
+                        <span class="block text-xl font-bold">Butter Chicken Royale</span>
+                        <span class="text-xs text-stone-500 italic">Velvety tomato cream gravy</span>
+                    </div>
+                    <span class="font-bold text-[#E5B34C] whitespace-nowrap">$24</span>
+                </div>
+                <!-- Item End -->
+                <div class="flex justify-between border-b border-[#4A0E0E]/20 pb-4">
+                    <div><span class="block text-xl font-bold">Paneer Lababdar</span><span class="text-xs text-stone-500 italic">Authentic cottage cheese</span></div>
+                    <span class="font-bold text-[#E5B34C]">$18</span>
+                </div>
+                <!-- You can add 50 more of these items here, the layout will stay perfect -->
+            </div>
+        </div>
+
+        <div id="festival" class="menu-category max-w-4xl mx-auto">
+            <div class="bg-[#4A0E0E] text-[#E5B34C] p-8 md:p-12 border-l-8 border-[#E5B34C] shadow-2xl">
+                <h3 class="text-2xl mb-4 italic">Diwali Special Thali</h3>
+                <p class="mb-6 opacity-80 leading-relaxed">A curated celebration thali including signature curries, appetizers, and royal sweets.</p>
+                <span class="font-bold text-2xl">$35 per guest</span>
+            </div>
+        </div>
+
+        <div id="weekend" class="menu-category max-w-4xl mx-auto">
+            <div class="grid grid-cols-1 gap-6">
+                <div class="flex justify-between border-b border-[#4A0E0E]/20 pb-4">
+                    <div><span class="block text-xl font-bold">Saturday Dum Biryani</span><span class="text-xs text-stone-500 italic">Slow-cooked for 6 hours</span></div>
+                    <span class="font-bold text-[#E5B34C]">$30</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. GALLERY SECTION (Supports N Photos) -->
+    <section id="gallery" class="py-24 bg-white/50 border-y border-stone-200">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl text-[#4A0E0E] mb-2 uppercase tracking-widest">Culinary Gallery</h2>
+                <div class="w-24 h-1 bg-[#E5B34C] mx-auto"></div>
+            </div>
+
+            <!-- Responsive Grid for N Photos -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="bg-white p-2 shadow-md hover:scale-105 transition-transform">
+                    <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?w=600" class="w-full h-64 object-cover" loading="lazy">
+                </div>
+                <div class="bg-white p-2 shadow-md hover:scale-105 transition-transform">
+                    <img src="https://images.unsplash.com/photo-1517244683847-7456b63c5969?w=600" class="w-full h-64 object-cover" loading="lazy">
+                </div>
+                <!-- Simply add more divs like above for more photos -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. FEEDBACK SECTION (Supports N Feedbacks) -->
+    <section id="feedback" class="py-24 bg-[#4A0E0E] text-[#E5B34C]">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl text-center mb-16 uppercase tracking-widest">Guest Praise</h2>
+            
+            <!-- Grid for N Feedbacks -->
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <div class="p-8 border border-[#E5B34C]/30 italic relative h-full">
+                    <span class="text-5xl absolute -top-4 left-4 opacity-50 bg-[#4A0E0E] px-2">“</span>
+                    "The flavors transported me straight back to India. Simply royal."
+                    <p class="mt-6 font-bold not-italic text-sm uppercase tracking-widest">— Sarah J.</p>
+                </div>
+                <div class="p-8 border border-[#E5B34C]/30 italic relative h-full">
+                    <span class="text-5xl absolute -top-4 left-4 opacity-50 bg-[#4A0E0E] px-2">“</span>
+                    "The weekend biryani is the best in the city!"
+                    <p class="mt-6 font-bold not-italic text-sm uppercase tracking-widest">— Mark T.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. FIND US SECTION -->
+    <section id="find-us" class="py-24 container mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl text-[#4A0E0E] mb-6 uppercase tracking-widest font-bold">Visit Our Kitchen</h2>
+                <div class="p-8 bg-white border-l-8 border-[#E5B34C] shadow-xl mb-6">
+                    <p class="text-xl font-bold tracking-wide">Kirchseeoner Weg 14,</p>
+                    <p class="text-xl font-bold tracking-wide">85614 Kirchseeon</p>
+                </div>
+                <div class="inline-block bg-[#4A0E0E] text-[#E5B34C] px-8 py-3 font-bold uppercase text-xs tracking-widest">
+                    Pick-up Point
+                </div>
+            </div>
+            <div class="rounded-lg overflow-hidden shadow-2xl h-96 border-4 border-[#4A0E0E]">
+                <iframe width="100%" height="100%" frameborder="0" src="https://maps.google.com/maps?q=Kirchseeoner%20Weg%2014,%2085614%20Kirchseeon&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-12 text-center text-xs uppercase tracking-[0.5em] text-[#4A0E0E]/60">
+        &copy; 2025 The Curry Queen. Handcrafted Culinary Art.
+    </footer>
+
+    <script>
+        // Menu Switch Logic
+        function showMenu(menuId) {
+            const categories = document.querySelectorAll('.menu-category');
+            categories.forEach(cat => cat.classList.remove('active-category'));
+            const activeMenu = document.getElementById(menuId);
+            if (activeMenu) { activeMenu.classList.add('active-category'); }
+        }
+
+        // Mobile Menu Toggle Logic
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
